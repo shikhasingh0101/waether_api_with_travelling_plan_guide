@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 
-const API_BASE = 'http://127.0.0.1:5000';
+const API_BASE = 'https://weather-travel-guide-api-3.onrender.com';
 
 const TravelGuideDisplay = ({ guideText, itineraryData, travelSummaryData }) => {
   if (!guideText) return null;
@@ -42,9 +42,9 @@ const App = () => {
   const [errorExtract, setErrorExtract] = useState(null);
 
   const [travelMessage, setTravelMessage] = useState('');
-  const [packingResponse, setPackingResponse] = useState(null);
-  const [errorPacking, setErrorPacking] = useState(null);
-  const [loadingPacking, setLoadingPacking] = useState(false);
+  const [accommodationResponse, setAccommodationResponse] = useState(null);
+  const [errorAccommodation, setErrorAccommodation] = useState(null);
+  const [loadingAccommodation, setLoadingAccommodation] = useState(false);
 
   const [travelGuideResponse, setTravelGuideResponse] = useState(null);
   const [loadingTravelGuide, setLoadingTravelGuide] = useState(false);
@@ -72,10 +72,6 @@ const App = () => {
     }
     setLoadingExtract(false);
   };
-
-  const [loadingAccommodation, setLoadingAccommodation] = useState(false);
-  const [errorAccommodation, setErrorAccommodation] = useState(null);
-  const [accommodationResponse, setAccommodationResponse] = useState(null);
 
   const handleTravelAccommodation = async () => {
     if (!travelMessage) return;
@@ -146,43 +142,36 @@ const App = () => {
       </section>
 
       <section className="section premium">
-  <h2>
-    🏨 Travel Accommodation Guide <span className="premium-tag">Premium</span>
-  </h2>
-  <textarea
-    value={travelMessage}
-    onChange={(e) => setTravelMessage(e.target.value)}
-    placeholder="e.g., I am visiting Paris next month. Can you suggest accommodation?"
-    className="textarea"
-  />
-  <button
-    className="button premium-btn"
-    onClick={handleTravelAccommodation}
-    disabled={!travelMessage || loadingAccommodation}
-  >
-    Get Accommodation Guide
-  </button>
+        <h2>
+          🏨 Travel Accommodation Guide <span className="premium-tag">Premium</span>
+        </h2>
+        <textarea
+          value={travelMessage}
+          onChange={(e) => setTravelMessage(e.target.value)}
+          placeholder="e.g., I am visiting Paris next month. Can you suggest accommodation?"
+          className="textarea"
+        />
+        <button
+          className="button premium-btn"
+          onClick={handleTravelAccommodation}
+          disabled={!travelMessage || loadingAccommodation}
+        >
+          Get Accommodation Guide
+        </button>
 
-  {loadingAccommodation && <p className="loading">Loading accommodation guide...</p>}
-  {errorAccommodation && <p className="error">{errorAccommodation}</p>}
+        {loadingAccommodation && <p className="loading">Loading accommodation guide...</p>}
+        {errorAccommodation && <p className="error">{errorAccommodation}</p>}
 
-  {accommodationResponse && (
-    <div className="result-box">
-      <p>
-        <strong>Location:</strong> {accommodationResponse.city}
-      </p>
-      <p>
-        <strong>Date:</strong> {accommodationResponse.date}
-      </p>
-      <p>
-        <strong>Accommodation Suggestions:</strong>
-      </p>
-      <div style={{ whiteSpace: "pre-line", marginTop: "0.5rem" }}>
-        {accommodationResponse.accommodation?.summary || "No suggestions available."}
-      </div>
-    </div>
-  )}
-</section>
+        {accommodationResponse && (
+          <div className="result-box">
+            <p><strong>Location:</strong> {accommodationResponse.city}</p>
+            <p><strong>Accommodation Suggestions:</strong></p>
+            <div style={{ whiteSpace: "pre-line", marginTop: "0.5rem" }}>
+              {accommodationResponse.summary || "No suggestions available."}
+            </div>
+          </div>
+        )}
+      </section>
 
       <section className="section premium" style={{ marginTop: '2rem' }}>
         <h2>🗺️ Full Travel Guide <span className="premium-tag">Premium</span></h2>
